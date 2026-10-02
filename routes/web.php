@@ -70,6 +70,46 @@ Route::get('/landlord/create', function () {
     return view('landlord.create');
 })->middleware(['auth', 'verified'])->name('landlord.create');
 
+// House Management for Landlords
+Route::middleware(['auth', 'verified'])->group(function () {
+
+    // Manage House
+    Route::get('/landlord/manage', [
+        HouseController::class,
+        'index'
+    ])->name('landlord.manage');
+
+    // Edit House
+    Route::get('/landlord/edit/{house}', [
+        HouseController::class,
+        'edit'
+    ])->name('landlord.edit');
+
+    // Update House
+    Route::put('/landlord/update/{house}', [
+        HouseController::class,
+        'update'
+    ])->name('landlord.update');
+
+    // Delete House
+    Route::delete('/landlord/delete/{house}', [
+        HouseController::class,
+        'destroy'
+    ])->name('landlord.delete');
+
+    // Create House Page
+    Route::get('/landlord/houses/create', [
+        HouseController::class,
+        'create'
+    ])->name('landlord.houses.create');
+
+    // Store House
+    Route::post('/landlord/houses', [
+        HouseController::class,
+        'store'
+    ])->name('landlord.houses.store');
+});
+
 // Admin Dashboard
 Route::get('/admin/dashboard', function () {
     return view('admin.dashboard');
@@ -101,22 +141,6 @@ Route::middleware('auth')->group(function () {
         ProfileController::class,
         'updateAvatar'
     ])->name('profile.avatar');
-});
-
-// House Management for Landlords
-Route::middleware('auth')->group(function () {
-
-    // Create House Page
-    Route::get('/landlord/houses/create', [
-        HouseController::class,
-        'create'
-    ])->name('landlord.houses.create');
-
-    // Store House
-    Route::post('/landlord/houses', [
-        HouseController::class,
-        'store'
-    ])->name('landlord.houses.store');
 });
 
 // Favourite
