@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\House;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class HouseController extends Controller
 {
@@ -17,12 +18,10 @@ class HouseController extends Controller
         return view('landlord.manage', compact('houses'));
     }
 
-
     public function create()
     {
         return view('landlord.create');
     }
-
 
     public function store(Request $request)
     {
@@ -37,42 +36,32 @@ class HouseController extends Controller
             'bathrooms' => 'required|integer|min:1',
             'property_type' => 'nullable|string|max:100',
             'furnished' => 'nullable|string|max:100',
-
-            'image' => 'nullable|array',
+            'image' => 'nullable|array|max:5',
             'image.*' => 'image|mimes:jpg,jpeg,png,webp|max:5120',
         ]);
 
-
         // Get logged-in landlord ID
         $validated['landlord_id'] = Auth::id();
-
 
         // Upload multiple images
         $imagePaths = [];
 
         if ($request->hasFile('image')) {
-
             foreach ($request->file('image') as $image) {
-
                 $imagePaths[] = $image->store('houses', 'public');
-
             }
         }
-
 
         // Store image paths as JSON
         $validated['image'] = json_encode($imagePaths);
 
-
         // Create house
         House::create($validated);
-
 
         return redirect()
             ->route('landlord.create')
             ->with('success', 'House added successfully.');
     }
-
 
     public function edit(House $house)
     {
@@ -82,12 +71,10 @@ class HouseController extends Controller
         return view('landlord.edit', compact('house'));
     }
 
-
     public function update(Request $request, House $house)
     {
         // Make sure the house belongs to the logged-in landlord
         abort_unless($house->landlord_id === Auth::id(), 403);
-
 
         $validated = $request->validate([
             'title' => 'required|string|max:255',
@@ -100,51 +87,79 @@ class HouseController extends Controller
             'bathrooms' => 'required|integer|min:1',
             'property_type' => 'nullable|string|max:100',
             'furnished' => 'nullable|string|max:100',
-
-            'image' => 'nullable|array',
+            'image' => 'nullable|array|max:5',
             'image.*' => 'image|mimes:jpg,jpeg,png,webp|max:5120',
-
-            'status' => 'required|string|max:255',
+            'status' => 'required|in:available,rented',
         ]);
-
 
         // Upload new images if provided
         if ($request->hasFile('image')) {
 
+            // Delete old images
+            if ($house->image) {
+
+                $oldImages = json_decode($house->image, true);
+
+                if (is_array($oldImages)) {
+
+                    foreach ($oldImages as $oldImage) {
+                        Storage::disk('public')->delete($oldImage);
+                    }
+
+                } else {
+
+                    // Support old single-image data
+                    Storage::disk('public')->delete($house->image);
+                }
+            }
+
+            // Upload new images
             $imagePaths = [];
 
             foreach ($request->file('image') as $image) {
-
                 $imagePaths[] = $image->store('houses', 'public');
-
             }
 
+            // Store new image paths
             $validated['image'] = json_encode($imagePaths);
         }
 
-
         // Update house
         $house->update($validated);
-
 
         return redirect()
             ->route('landlord.manage')
             ->with('success', 'House updated successfully.');
     }
 
-
     public function destroy(House $house)
     {
         // Make sure the house belongs to the logged-in landlord
         abort_unless($house->landlord_id === Auth::id(), 403);
 
+        // Delete house images
+        if ($house->image) {
+
+            $images = json_decode($house->image, true);
+
+            if (is_array($images)) {
+
+                foreach ($images as $image) {
+                    Storage::disk('public')->delete($image);
+                }
+
+            } else {
+
+                Storage::disk('public')->delete($house->image);
+            }
+        }
 
         // Delete the house
         $house->delete();
-
 
         return redirect()
             ->route('landlord.manage')
             ->with('success', 'House deleted successfully.');
     }
 }
+

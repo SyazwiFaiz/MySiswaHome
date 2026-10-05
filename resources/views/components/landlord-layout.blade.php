@@ -62,23 +62,6 @@
                     </p>
 
 
-                    {{-- Create House --}}
-                    <a href="{{ route('landlord.create') }}"
-                        class="flex items-center gap-3 px-4 py-3 rounded-xl transition duration-200
-    {{ request()->routeIs('student.dashboard')
-        ? 'bg-indigo-600 text-white shadow-sm'
-        : 'text-gray-700 hover:bg-indigo-50 hover:text-indigo-600' }}">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M21 21l-4.35-4.35m2.35-5.65a8 8 0 11-16 0 8 8 0 0116 0z" />
-                        </svg>
-
-                        <span class="font-medium">
-                            Create Listing
-                        </span>
-                    </a>
-
-
                     {{-- Favourite --}}
                     <a href="{{ route('landlord.manage') }}"
                         class="flex items-center gap-3 px-4 py-3 rounded-xl transition duration-200
@@ -94,6 +77,25 @@
                             Manage House
                         </span>
                     </a>
+
+                    {{-- Create House --}}
+                    <a href="{{ route('landlord.create') }}"
+                        class="flex items-center gap-3 px-4 py-3 rounded-xl transition duration-200
+    {{ request()->routeIs('landlord.create')
+        ? 'bg-indigo-600 text-white shadow-sm'
+        : 'text-gray-700 hover:bg-indigo-50 hover:text-indigo-600' }}">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M21 21l-4.35-4.35m2.35-5.65a8 8 0 11-16 0 8 8 0 0116 0z" />
+                        </svg>
+
+                        <span class="font-medium">
+                            Create Listing
+                        </span>
+                    </a>
+
+
+
 
 
                     {{-- Permohonan --}}
