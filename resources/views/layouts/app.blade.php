@@ -19,6 +19,8 @@
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
+    @stack('styles')
+    @stack('scripts')
 </head>
 
 <body class="font-sans antialiased bg-gray-50 text-gray-800">
@@ -97,9 +99,9 @@
 
 
                     {{-- Permohonan --}}
-                    <a href="{{ route('permohonan') }}"
+                    <a href="{{ route('MapSearch') }}"
                         class="flex items-center gap-3 px-4 py-3 rounded-xl transition duration-200
-        {{ request()->routeIs('permohonan')
+        {{ request()->routeIs('MapSearch')
             ? 'bg-indigo-600 text-white shadow-sm'
             : 'text-gray-700 hover:bg-indigo-50 hover:text-indigo-600' }}">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -108,7 +110,7 @@
                         </svg>
 
                         <span class="font-medium">
-                            Permohonan
+                            Carian Peta
                         </span>
                     </a>
 

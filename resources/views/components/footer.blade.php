@@ -135,7 +135,7 @@
 
                     <!-- Instagram -->
                     <li>
-                        <a href="#" class="text-gray-500 transition hover:text-indigo-600">
+                        <a href="#" class="text-gray-500 transition hover:text-red-600">
                             <span class="sr-only">Instagram</span>
 
                             <svg class="size-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -148,7 +148,7 @@
 
                     <!-- TikTok -->
                     <li>
-                        <a href="#" class="text-gray-500 transition hover:text-indigo-600">
+                        <a href="#" class="text-gray-500 transition hover:text-indigo-900">
                             <span class="sr-only">TikTok</span>
 
                             <svg class="size-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">

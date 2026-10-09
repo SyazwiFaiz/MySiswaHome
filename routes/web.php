@@ -1,3 +1,4 @@
+
 <?php
 
 use App\Http\Controllers\ProfileController;
@@ -165,10 +166,24 @@ Route::middleware('auth')->group(function () {
     ])->name('favourite.check');
 });
 
-// Permohonan
-Route::get('/permohonan', function () {
-    return view('permohonan');
-})->middleware(['auth', 'verified'])->name('permohonan');
+// Permohonan - Map View
+Route::get('/MapSearch', function () {
+    $houses = House::where('status', 'available')
+        ->latest()
+        ->get([
+            'id',
+            'title',
+            'description',
+            'address',
+            'area',
+            'monthly_rent',
+            'property_type',
+            'latitude',
+            'longitude',
+        ]);
+
+    return view('MapSearch', compact('houses'));
+})->middleware(['auth', 'verified'])->name('MapSearch');
 
 // Authentication Routes
 require __DIR__ . '/auth.php';

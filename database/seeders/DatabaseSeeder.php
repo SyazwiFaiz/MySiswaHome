@@ -93,9 +93,9 @@ class DatabaseSeeder extends Seeder
         ]);
 
 
-        // =========================
+   
         // HOUSES
-        // =========================
+
 
         $house1 = House::create([
             'landlord_id' => $landlord1->id,
