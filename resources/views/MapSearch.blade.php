@@ -1,11 +1,12 @@
+
 <x-app-layout>
     <x-slot name="header">
         <div>
-            <h2 class="text-2xl font-extrabold tracking-tight text-gray-800">
+            <h2 class="text-2xl font-extrabold text-gray-800">
                 Track Lokasi Rumah
             </h2>
             <p class="mt-1 text-sm text-gray-500">
-                Cari rumah sewa mengikut lokasi dan bajet anda.
+                Cari rumah sewa, semak lokasi dan lihat maklumat lanjut.
             </p>
         </div>
     </x-slot>
@@ -13,25 +14,23 @@
     <div class="min-h-screen bg-slate-50 py-8">
         <div class="mx-auto max-w-7xl space-y-6 px-4 sm:px-6 lg:px-8">
 
-            <div class="overflow-hidden rounded-3xl bg-gradient-to-r from-indigo-700 via-indigo-600 to-violet-600 p-6 text-white shadow-lg sm:p-8">
+            <div class="rounded-3xl bg-gradient-to-r from-indigo-700 to-violet-600 p-6 text-white shadow-lg">
                 <div class="flex flex-col justify-between gap-5 md:flex-row md:items-center">
                     <div>
-                        <p class="text-xs font-bold uppercase tracking-[0.2em] text-indigo-200">
+                        <p class="text-xs font-bold uppercase tracking-widest text-indigo-200">
                             MySiswaHome Explorer
                         </p>
-
                         <h3 class="mt-3 text-3xl font-extrabold">
                             Cari rumah, cari keselesaan.
                         </h3>
-
                         <p class="mt-3 max-w-xl text-sm leading-6 text-indigo-100">
-                            Terokai lokasi rumah sewa, semak harga bulanan
-                            dan cari penginapan yang sesuai dengan keperluan anda.
+                            Gunakan peta untuk menyemak kedudukan rumah sewa.
+                            Tekan penanda untuk melihat ringkasan dan maklumat lanjut.
                         </p>
                     </div>
 
                     <button id="locate-me" type="button"
-                        class="rounded-xl bg-white px-5 py-3 font-bold text-indigo-700 shadow transition hover:bg-indigo-50">
+                        class="rounded-xl bg-white px-5 py-3 font-bold text-indigo-700 shadow hover:bg-indigo-50">
                         ◎ Gunakan Lokasi Saya
                     </button>
                 </div>
@@ -41,13 +40,11 @@
                 <div class="rounded-2xl border border-slate-100 bg-white p-5 shadow-sm">
                     <p class="text-sm text-gray-500">Jumlah rumah tersedia</p>
                     <h3 id="total-houses" class="mt-2 text-3xl font-extrabold text-gray-800">0</h3>
-                    <p class="mt-1 text-xs text-gray-400">Berdasarkan data sistem</p>
                 </div>
 
                 <div class="rounded-2xl border border-slate-100 bg-white p-5 shadow-sm">
-                    <p class="text-sm text-gray-500">Lokasi pada peta</p>
+                    <p class="text-sm text-gray-500">Rumah pada peta</p>
                     <h3 id="mapped-houses" class="mt-2 text-3xl font-extrabold text-emerald-600">0</h3>
-                    <p class="mt-1 text-xs text-gray-400">Rumah dengan koordinat lengkap</p>
                 </div>
 
                 <div class="rounded-2xl border border-slate-100 bg-white p-5 shadow-sm">
@@ -67,7 +64,6 @@
                         <label for="search-house" class="mb-2 block text-sm font-semibold text-gray-700">
                             Cari rumah atau kawasan
                         </label>
-
                         <input id="search-house" type="search"
                             placeholder="Contoh: Shah Alam, Bangi..."
                             class="w-full rounded-xl border-gray-200 py-3 text-sm focus:border-indigo-500 focus:ring-indigo-500">
@@ -77,7 +73,6 @@
                         <label for="price-filter" class="mb-2 block text-sm font-semibold text-gray-700">
                             Bajet bulanan
                         </label>
-
                         <select id="price-filter"
                             class="w-full rounded-xl border-gray-200 py-3 text-sm focus:border-indigo-500 focus:ring-indigo-500">
                             <option value="">Semua harga</option>
@@ -90,7 +85,7 @@
 
                     <div class="flex items-end md:col-span-3">
                         <button id="reset-filter" type="button"
-                            class="w-full rounded-xl border border-gray-200 px-4 py-3 text-sm font-semibold text-gray-700 transition hover:bg-gray-50">
+                            class="w-full rounded-xl border border-gray-200 px-4 py-3 text-sm font-semibold text-gray-700 hover:bg-gray-50">
                             ↻ Reset carian
                         </button>
                     </div>
@@ -98,22 +93,15 @@
             </div>
 
             <div class="grid grid-cols-1 items-start gap-6 lg:grid-cols-5">
-
                 <div class="overflow-hidden rounded-2xl border border-slate-100 bg-white shadow-sm lg:col-span-3">
-                    <div class="flex flex-wrap items-center justify-between gap-3 border-b border-gray-100 p-5">
-                        <div>
-                            <h3 class="font-bold text-gray-800">Peta Rumah Sewa</h3>
-                            <p class="mt-1 text-xs text-gray-500">
-                                Tekan penanda untuk melihat maklumat rumah.
-                            </p>
-                        </div>
-
-                        <span class="rounded-full bg-indigo-50 px-3 py-1 text-xs font-semibold text-indigo-700">
-                            Peta interaktif
-                        </span>
+                    <div class="border-b border-gray-100 p-5">
+                        <h3 class="font-bold text-gray-800">Peta Rumah Sewa</h3>
+                        <p class="mt-1 text-xs text-gray-500">
+                            Tekan penanda untuk melihat lokasi dan pautan maklumat lanjut.
+                        </p>
                     </div>
 
-                    <div id="map" class="w-full" style="height: 480px; background: #eef2ff;"></div>
+                    <div id="map" class="w-full" style="height:480px;background:#eef2ff"></div>
 
                     <div class="flex flex-wrap items-center gap-4 border-t border-gray-100 px-5 py-4 text-xs text-gray-500">
                         <span>🟣 Rumah sewa</span>
@@ -126,9 +114,10 @@
                     <div class="flex items-center justify-between border-b border-gray-100 p-5">
                         <div>
                             <h3 class="font-bold text-gray-800">Senarai Rumah</h3>
-                            <p class="mt-1 text-sm text-gray-500">Rumah yang sepadan dengan carian anda.</p>
+                            <p class="mt-1 text-sm text-gray-500">
+                                Pilih rumah untuk melihat kedudukannya.
+                            </p>
                         </div>
-
                         <span id="house-count"
                             class="rounded-lg bg-indigo-50 px-3 py-2 text-sm font-bold text-indigo-700">
                             0 rumah
@@ -141,18 +130,15 @@
                         </p>
                     </div>
                 </div>
-
             </div>
 
             <div class="rounded-2xl border border-amber-100 bg-amber-50 p-4">
                 <h4 class="font-bold text-amber-900">💡 Tip mencari rumah</h4>
                 <p class="mt-1 text-sm leading-6 text-amber-800">
-                    Benarkan akses lokasi pada pelayar untuk mengira jarak garis lurus
-                    dari kedudukan anda. Rumah perlu mempunyai latitude dan longitude
-                    untuk muncul sebagai penanda pada peta.
+                    Rumah perlu mempunyai latitude dan longitude untuk muncul pada peta.
+                    Butang maklumat lanjut akan membuka halaman Cari Rumah untuk rumah yang dipilih.
                 </p>
             </div>
-
         </div>
     </div>
 
@@ -162,9 +148,9 @@
 
         <style>
             #map {
-                z-index: 1;
                 display: block;
                 min-height: 400px;
+                z-index: 1;
             }
 
             .leaflet-container {
@@ -178,17 +164,6 @@
             .leaflet-popup-content {
                 margin: 14px 16px;
             }
-
-            .house-marker {
-                background: #4f46e5;
-                border: 2px solid white;
-                border-radius: 12px;
-                color: white;
-                font-weight: 800;
-                padding: 6px 9px;
-                white-space: nowrap;
-                box-shadow: 0 3px 12px #0002;
-            }
         </style>
     @endpush
 
@@ -198,12 +173,13 @@
         <script>
             document.addEventListener('DOMContentLoaded', function () {
                 const houses = @json($houses ?? []);
+                const storageBaseUrl = @json(asset('storage'));
+                const detailPageUrl = @json(route('student.dashboard'));
 
                 const mapElement = document.getElementById('map');
                 const list = document.getElementById('house-list');
                 const searchInput = document.getElementById('search-house');
                 const priceFilter = document.getElementById('price-filter');
-
                 const totalElement = document.getElementById('total-houses');
                 const mappedElement = document.getElementById('mapped-houses');
                 const countElement = document.getElementById('house-count');
@@ -211,15 +187,14 @@
                 const gpsSummary = document.getElementById('gps-summary');
                 const locationStatus = document.getElementById('location-status');
 
+                if (!mapElement || !list) {
+                    console.error('Elemen peta atau senarai rumah tidak dijumpai.');
+                    return;
+                }
+
                 if (typeof L === 'undefined') {
                     mapMessage.textContent = 'Leaflet gagal dimuatkan.';
-                    list.innerHTML = `
-                        <div class="rounded-xl bg-red-50 p-4 text-sm text-red-700">
-                            Peta gagal dimuatkan. Semak sambungan internet atau CDN Leaflet.
-                            Cuba refresh halaman selepas beberapa saat.
-                        </div>
-                    `;
-                    console.error('Leaflet JavaScript tidak tersedia.');
+                    list.textContent = 'Peta tidak dapat dimuatkan. Semak sambungan internet.';
                     return;
                 }
 
@@ -231,7 +206,6 @@
                 }).addTo(map);
 
                 const markersLayer = L.layerGroup().addTo(map);
-
                 let userMarker = null;
                 let userPosition = null;
 
@@ -269,6 +243,45 @@
                         !(lat === 0 && lng === 0);
                 }
 
+                function getImageUrl(house) {
+                    let images = house.image;
+
+                    if (typeof images === 'string') {
+                        try {
+                            images = JSON.parse(images);
+                        } catch (error) {
+                            // Nilai bukan JSON; anggap sebagai laluan gambar tunggal.
+                        }
+                    }
+
+                    if (!Array.isArray(images)) {
+                        images = [images];
+                    }
+
+                    const image = images.find(item =>
+                        typeof item === 'string' && item.trim() !== ''
+                    );
+
+                    if (!image) {
+                        return null;
+                    }
+
+                    if (/^https?:\/\//i.test(image)) {
+                        return image;
+                    }
+
+                    const filename = image.trim()
+                        .replace(/\\/g, '/')
+                        .replace(/^\/+/, '')
+                        .replace(/^storage\//i, '')
+                        .replace(/^public\//i, '');
+
+                    return `${storageBaseUrl}/${filename
+                        .split('/')
+                        .map(segment => encodeURIComponent(segment))
+                        .join('/')}`;
+                }
+
                 function distanceKm(lat1, lon1, lat2, lon2) {
                     const rad = value => value * Math.PI / 180;
                     const dLat = rad(lat2 - lat1);
@@ -286,23 +299,26 @@
                     );
                 }
 
+                function getDetailUrl(house) {
+                    const url = new URL(detailPageUrl, window.location.origin);
+                    url.searchParams.set('house_id', house.id);
+                    return url.toString();
+                }
+
                 function getFilteredHouses() {
                     const search = searchInput.value.trim().toLowerCase();
                     const maxPrice = priceFilter.value;
 
                     let results = houses.filter(function (house) {
-                        const searchableText = [
+                        const text = [
                             house.title,
                             house.address,
                             house.area,
                             house.property_type
                         ].join(' ').toLowerCase();
 
-                        const matchesSearch =
-                            !search || searchableText.includes(search);
-
-                        const matchesPrice =
-                            !maxPrice ||
+                        const matchesSearch = !search || text.includes(search);
+                        const matchesPrice = !maxPrice ||
                             Number(house.monthly_rent) <= Number(maxPrice);
 
                         return matchesSearch && matchesPrice;
@@ -310,9 +326,7 @@
 
                     if (userPosition) {
                         results = results.map(function (house) {
-                            if (!hasCoordinates(house)) {
-                                return house;
-                            }
+                            if (!hasCoordinates(house)) return house;
 
                             return {
                                 ...house,
@@ -347,23 +361,41 @@
                         const lat = Number(house.latitude);
                         const lng = Number(house.longitude);
                         const price = Number(house.monthly_rent || 0);
-
                         const marker = L.marker([lat, lng]).addTo(markersLayer);
+                        const imageUrl = getImageUrl(house);
+
+                        const imageHtml = imageUrl
+                            ? `<img
+                                src="${escapeHtml(imageUrl)}"
+                                alt="Gambar rumah"
+                                style="width:100%;height:150px;object-fit:cover;border-radius:10px;margin-bottom:10px;"
+                                onerror="this.style.display='none';"
+                              >`
+                            : `<div style="height:100px;display:flex;align-items:center;justify-content:center;background:#eef2ff;border-radius:10px;margin-bottom:10px;font-size:32px;">🏠</div>`;
+
+                        const detailUrl = getDetailUrl(house);
 
                         marker.bindPopup(`
-                            <div style="min-width:180px">
-                                <strong>${escapeHtml(house.title || 'Rumah sewa')}</strong>
-                                <p style="margin:6px 0;color:#64748b">
-                                    ${escapeHtml(house.area || house.address || 'Lokasi rumah')}
+                            <div style="width:250px;">
+                                ${imageHtml}
+                                <h3 style="font-weight:bold;font-size:16px;margin-bottom:8px;">
+                                    ${escapeHtml(house.title || 'Rumah sewa')}
+                                </h3>
+                                <p style="font-size:13px;margin-bottom:8px;">
+                                    📍 ${escapeHtml(house.address || house.area || 'Alamat belum disediakan')}
                                 </p>
-                                <p style="color:#4f46e5;font-weight:800;font-size:16px">
+                                <p style="font-size:16px;font-weight:bold;color:#4338ca;">
                                     RM${price.toFixed(2)} / bulan
                                 </p>
-                                ${house.distance !== undefined
-                                    ? `<p style="margin-top:5px">${house.distance.toFixed(2)} km dari anda</p>`
-                                    : ''}
+                                <a href="${escapeHtml(detailUrl)}"
+                                   style="display:block;text-align:center;background:#4f46e5;color:white;padding:10px;border-radius:8px;text-decoration:none;font-weight:bold;margin-top:12px;">
+                                    Lihat Maklumat Lanjut →
+                                </a>
                             </div>
-                        `);
+                        `, {
+                            maxWidth: 300,
+                            minWidth: 250
+                        });
 
                         house._marker = marker;
                         bounds.push([lat, lng]);
@@ -378,63 +410,41 @@
                             'rounded-2xl border border-gray-100 p-4 transition hover:border-indigo-200 hover:shadow-md';
 
                         card.innerHTML = `
-                            <div class="flex items-start gap-3">
-                                <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-indigo-50 text-2xl">
-                                    🏠
-                                </div>
-
-                                <div class="min-w-0 flex-1">
-                                    <h4 class="font-bold text-gray-800">
-                                        ${escapeHtml(house.title || 'Rumah sewa')}
-                                    </h4>
-
-                                    <p class="mt-2 text-xs leading-5 text-gray-500">
-                                        📍 ${escapeHtml(house.area || house.address || 'Alamat belum disediakan')}
-                                    </p>
-
-                                    <p class="mt-3 text-lg font-extrabold text-indigo-700">
-                                        RM${price.toFixed(2)}
-                                        <span class="text-xs font-normal text-gray-500">/ bulan</span>
-                                    </p>
-
-                                    <div class="mt-3 flex flex-wrap gap-2">
-                                        ${house.property_type
-                                            ? `<span class="rounded-full bg-gray-100 px-2.5 py-1 text-xs text-gray-600">${escapeHtml(house.property_type)}</span>`
-                                            : ''}
-
-                                        ${house.distance !== undefined
-                                            ? `<span class="rounded-full bg-emerald-50 px-2.5 py-1 text-xs font-semibold text-emerald-700">${house.distance.toFixed(2)} km dari anda</span>`
-                                            : ''}
-                                    </div>
-
-                                    <button type="button"
-                                        class="view-house mt-4 w-full rounded-xl px-4 py-2.5 text-sm font-semibold transition ${
-                                            located
-                                                ? 'bg-indigo-600 text-white hover:bg-indigo-700'
-                                                : 'cursor-not-allowed bg-gray-100 text-gray-500'
-                                        }"
-                                        ${located ? '' : 'disabled'}>
-                                        ${located ? 'Lihat pada peta →' : 'Lokasi belum ditetapkan'}
-                                    </button>
-                                </div>
+                            <h4 class="font-bold text-gray-800">
+                                ${escapeHtml(house.title || 'Rumah sewa')}
+                            </h4>
+                            <p class="mt-2 text-xs leading-5 text-gray-500">
+                                📍 ${escapeHtml(house.area || house.address || 'Alamat belum disediakan')}
+                            </p>
+                            <p class="mt-3 text-lg font-extrabold text-indigo-700">
+                                RM${price.toFixed(2)}
+                                <span class="text-xs font-normal text-gray-500">/ bulan</span>
+                            </p>
+                            <div class="mt-3 flex flex-col gap-2">
+                                <button type="button"
+                                    class="view-map rounded-xl px-4 py-2.5 text-sm font-semibold ${
+                                        located
+                                            ? 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                                            : 'cursor-not-allowed bg-gray-100 text-gray-400'
+                                    }"
+                                    ${located ? '' : 'disabled'}>
+                                    ${located ? 'Lihat Lokasi pada Peta' : 'Lokasi belum ditetapkan'}
+                                </button>
+                                <a href="${escapeHtml(getDetailUrl(house))}"
+                                    class="block rounded-xl bg-indigo-600 px-4 py-2.5 text-center text-sm font-semibold text-white hover:bg-indigo-700">
+                                    Lihat Maklumat Lanjut →
+                                </a>
                             </div>
                         `;
 
                         if (located) {
-                            card.querySelector('.view-house').addEventListener('click', function () {
+                            card.querySelector('.view-map').addEventListener('click', function () {
                                 map.setView([
                                     Number(house.latitude),
                                     Number(house.longitude)
                                 ], 16);
 
                                 house._marker.openPopup();
-
-                                if (window.innerWidth < 1024) {
-                                    mapElement.scrollIntoView({
-                                        behavior: 'smooth',
-                                        block: 'start'
-                                    });
-                                }
                             });
                         }
 
@@ -449,23 +459,15 @@
                         list.innerHTML = `
                             <div class="py-10 text-center">
                                 <div class="text-4xl">🔎</div>
-                                <p class="mt-3 font-semibold text-gray-700">
-                                    Tiada rumah ditemui
-                                </p>
-                                <p class="mt-1 text-sm text-gray-500">
-                                    Cuba ubah carian atau bajet anda.
-                                </p>
+                                <p class="mt-3 font-semibold text-gray-700">Tiada rumah ditemui</p>
+                                <p class="mt-1 text-sm text-gray-500">Cuba ubah carian atau bajet anda.</p>
                             </div>
                         `;
                     } else if (locatedHouses.length === 0) {
-                        const notice = document.createElement('div');
-
-                        notice.className =
-                            'mb-3 rounded-xl bg-amber-50 p-3 text-xs leading-5 text-amber-800';
-
+                        const notice = document.createElement('p');
+                        notice.className = 'text-sm text-amber-700';
                         notice.textContent =
-                            'Rumah tersedia, tetapi belum mempunyai koordinat. Tambah latitude dan longitude pada data rumah untuk memaparkan penanda pada peta.';
-
+                            'Rumah ini belum mempunyai koordinat untuk dipaparkan pada peta.';
                         list.prepend(notice);
                     }
 
@@ -493,12 +495,14 @@
                 document.getElementById('locate-me').addEventListener('click', function () {
                     if (!navigator.geolocation) {
                         gpsSummary.textContent = 'Tidak disokong';
-                        locationStatus.textContent = 'Pelayar anda tidak menyokong GPS.';
+                        locationStatus.textContent =
+                            'Pelayar anda tidak menyokong GPS.';
                         return;
                     }
 
                     gpsSummary.textContent = 'Mengesan...';
-                    locationStatus.textContent = 'Sila benarkan akses lokasi pada pelayar.';
+                    locationStatus.textContent =
+                        'Sila benarkan akses lokasi pada pelayar.';
 
                     navigator.geolocation.getCurrentPosition(
                         function (position) {
@@ -530,7 +534,8 @@
                             ], 13);
 
                             gpsSummary.textContent = 'Lokasi dikesan';
-                            locationStatus.textContent = 'Senarai rumah disusun mengikut jarak.';
+                            locationStatus.textContent =
+                                'Senarai rumah disusun mengikut jarak.';
 
                             renderHouses();
                         },
