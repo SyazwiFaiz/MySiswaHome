@@ -6,10 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Favourite extends Model
 {
-    protected $fillable = [
-        'user_id',
-        'house_id',
-    ];
+    protected $fillable = ['user_id', 'house_id'];
 
     public function user()
     {
@@ -18,6 +15,6 @@ class Favourite extends Model
 
     public function house()
     {
-        return $this->belongsTo(House::class);
+        return $this->belongsTo(House::class)->withTrashed();
     }
 }

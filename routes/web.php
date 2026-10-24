@@ -113,10 +113,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     ])->name('landlord.houses.store');
 });
 
-// Admin Dashboard
-Route::get('/admin/dashboard', function () {
-    return view('admin.dashboard');
-})->middleware(['auth', 'verified'])->name('admin.dashboard');
+// // Admin Dashboard
+// Route::get('/admin/dashboard', function () {
+//     return view('admin.dashboard');
+// })->middleware(['auth', 'verified'])->name('admin.dashboard');
 
 // Profile
 Route::middleware('auth')->group(function () {
@@ -193,4 +193,7 @@ Route::get('/student/house/{house}', [
     'show'
 ])->middleware(['auth', 'verified'])->name('student.house-detail');
 
+
+
 require __DIR__ . '/auth.php';
+require __DIR__.'/admin.php';
