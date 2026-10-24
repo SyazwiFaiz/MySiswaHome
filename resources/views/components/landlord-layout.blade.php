@@ -2,157 +2,141 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 <head>
-
     <meta charset="utf-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>{{ config('app.name', 'MySiswaHome') }}</title>
 
-    <!-- Fonts -->
+    {{-- Fonts --}}
     <link rel="preconnect" href="https://fonts.bunny.net">
+    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600,700,800&display=swap"
+        rel="stylesheet">
 
-    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600,700&display=swap" rel="stylesheet" />
-
-    <!-- Scripts -->
+    {{-- Scripts --}}
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-
 </head>
 
-<body class="font-sans antialiased bg-gray-50 text-gray-800">
+<body class="bg-gray-50 font-sans antialiased text-gray-800">
 
     <div class="min-h-screen">
 
-        <!-- Navigation -->
+        {{-- Navigation --}}
         @include('layouts.navigation')
 
+        <div class="flex min-h-[calc(100vh-64px)]">
 
-        <div class="flex">
+            {{-- Sidebar --}}
+            <aside class="hidden w-64 shrink-0 flex-col border-r border-gray-200 bg-white lg:flex">
 
-            <!-- Sidebar -->
-            <aside class="hidden lg:flex lg:flex-col w-64 min-h-[calc(100vh-64px)] bg-white border-r border-gray-200">
-
-                <!-- Sidebar Logo -->
-                <div class="flex items-center gap-3 px-6 py-6 border-b border-gray-100">
-
-                    <img src="{{ asset('img/logo.png') }}" alt="MySiswaHome" class="h-12 w-auto object-contain">
-
-                    <div>
-
-                        <h1 class="text-lg font-bold text-gray-800">
-                            MySiswaHome
-                        </h1>
-
-                        <p class="text-xs text-gray-400">
-                            Student Rental
-                        </p>
-
-                    </div>
-
-                </div>
-
-
+                {{-- Sidebar Logo --}}
+             
                 {{-- Sidebar Menu --}}
-                <nav class="flex-1 px-4 py-6 space-y-2">
+                <nav class="flex-1 space-y-2 px-4 py-6">
 
-                    <p class="px-3 mb-3 text-xs font-semibold uppercase tracking-wider text-gray-400">
-                        Menu
+                    <p class="mb-4 px-3 text-xs font-bold uppercase tracking-widest text-gray-400">
+                        Menu Utama
                     </p>
 
-
-                    {{-- Favourite --}}
+                    {{-- Manage House --}}
                     <a href="{{ route('landlord.manage') }}"
-                        class="flex items-center gap-3 px-4 py-3 rounded-xl transition duration-200
-        {{ request()->routeIs('landlord.manage')
-            ? 'bg-indigo-600 text-white shadow-sm'
-            : 'text-gray-700 hover:bg-indigo-50 hover:text-indigo-600' }}">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M4.318 6.318a4.5 4.5 0 016.364 0L12 7.636l1.318-1.318a4.5 4.5 0 116.364 6.364L12 20.364 4.318 12.682a4.5 4.5 0 010-6.364z" />
+                        class="flex items-center gap-3 rounded-xl px-4 py-3 transition duration-200
+                        {{ request()->routeIs('landlord.manage')
+                            ? 'bg-indigo-600 text-white shadow-md shadow-indigo-100'
+                            : 'text-gray-600 hover:bg-indigo-50 hover:text-indigo-700' }}">
+
+                        <svg class="h-5 w-5 shrink-0" fill="none" stroke="currentColor"
+                            viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                stroke-width="2"
+                                d="M3 10.5L12 3l9 7.5V21a1 1 0 01-1 1h-5v-7H9v7H4a1 1 0 01-1-1V10.5z" />
                         </svg>
 
-                        <span class="font-medium">
+                        <span class="font-semibold">
                             Manage House
                         </span>
                     </a>
 
-                    {{-- Create House --}}
+                    {{-- Create Listing --}}
                     <a href="{{ route('landlord.create') }}"
-                        class="flex items-center gap-3 px-4 py-3 rounded-xl transition duration-200
-    {{ request()->routeIs('landlord.create')
-        ? 'bg-indigo-600 text-white shadow-sm'
-        : 'text-gray-700 hover:bg-indigo-50 hover:text-indigo-600' }}">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M21 21l-4.35-4.35m2.35-5.65a8 8 0 11-16 0 8 8 0 0116 0z" />
+                        class="flex items-center gap-3 rounded-xl px-4 py-3 transition duration-200
+                        {{ request()->routeIs('landlord.create', 'landlord.houses.create')
+                            ? 'bg-indigo-600 text-white shadow-md shadow-indigo-100'
+                            : 'text-gray-600 hover:bg-indigo-50 hover:text-indigo-700' }}">
+
+                        <svg class="h-5 w-5 shrink-0" fill="none" stroke="currentColor"
+                            viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                stroke-width="2"
+                                d="M12 4v16m8-8H4" />
                         </svg>
 
-                        <span class="font-medium">
+                        <span class="font-semibold">
                             Create Listing
                         </span>
                     </a>
 
+                    {{-- More --}}
+                    {{-- Gunakan route yang memang wujud --}}
+                    <a href="{{ route('landlord.manage') }}"
+                        class="flex items-center gap-3 rounded-xl px-4 py-3 transition duration-200
+                        text-gray-600 hover:bg-indigo-50 hover:text-indigo-700">
 
-
-
-
-                    {{-- Permohonan --}}
-                    <a href="{{ route('permohonan') }}"
-                        class="flex items-center gap-3 px-4 py-3 rounded-xl transition duration-200
-        {{ request()->routeIs('permohonan')
-            ? 'bg-indigo-600 text-white shadow-sm'
-            : 'text-gray-700 hover:bg-indigo-50 hover:text-indigo-600' }}">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        <svg class="h-5 w-5 shrink-0" fill="none" stroke="currentColor"
+                            viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                stroke-width="2"
                                 d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                         </svg>
 
-                        <span class="font-medium">
-                            more
+                        <span class="font-semibold">
+                            More
                         </span>
                     </a>
 
-
-                    {{-- Akaun --}}
-                    <div class="pt-6">
-                        <p class="px-3 mb-3 text-xs font-semibold uppercase tracking-wider text-gray-400">
+                    {{-- Account Section --}}
+                    <div class="pt-8">
+                        <p class="mb-4 px-3 text-xs font-bold uppercase tracking-widest text-gray-400">
                             Akaun
                         </p>
+
+                        {{-- Profile --}}
+                        <a href="{{ route('profile.edit') }}"
+                            class="flex items-center gap-3 rounded-xl px-4 py-3 transition duration-200
+                            {{ request()->routeIs('profile.*')
+                                ? 'bg-indigo-600 text-white shadow-md shadow-indigo-100'
+                                : 'text-gray-600 hover:bg-indigo-50 hover:text-indigo-700' }}">
+
+                            <svg class="h-5 w-5 shrink-0" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                            </svg>
+
+                            <span class="font-semibold">
+                                Profil
+                            </span>
+                        </a>
                     </div>
-
-
-                    {{-- Profil --}}
-                    <a href="{{ route('profile.edit') }}"
-                        class="flex items-center gap-3 px-4 py-3 rounded-xl transition duration-200
-        {{ request()->routeIs('profile.*')
-            ? 'bg-indigo-600 text-white shadow-sm'
-            : 'text-gray-700 hover:bg-indigo-50 hover:text-indigo-600' }}">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                        </svg>
-
-                        <span class="font-medium">
-                            Profil
-                        </span>
-                    </a>
 
                 </nav>
 
+                {{-- Sidebar Bottom --}}
+                <div class="border-t border-gray-100 p-4">
 
-                <!-- Sidebar Bottom -->
-                <div class="p-4 border-t border-gray-100">
+                    <div class="rounded-2xl border border-indigo-100 bg-indigo-50 p-4">
 
-                    <div class="p-4 rounded-xl bg-indigo-50">
+                        <div class="mb-2 flex h-10 w-10 items-center justify-center rounded-xl bg-white text-xl shadow-sm">
+                            🏠
+                        </div>
 
-                        <p class="text-sm font-semibold text-indigo-700">
-                            🏠 MySiswaHome
+                        <p class="text-sm font-bold text-indigo-800">
+                            MySiswaHome
                         </p>
 
-                        <p class="mt-1 text-xs text-indigo-500">
-                            Cari rumah sewa yang sesuai dengan keperluan anda.
+                        <p class="mt-1 text-xs leading-5 text-indigo-600">
+                            Urus dan kemas kini rumah sewa anda dengan mudah.
                         </p>
 
                     </div>
@@ -161,26 +145,22 @@
 
             </aside>
 
+            {{-- Main Content --}}
+            <main class="min-w-0 flex-1">
 
-            <!-- Main Content -->
-            <main class="flex-1 min-w-0">
-
-                <!-- Page Heading -->
+                {{-- Page Heading --}}
                 @isset($header)
-                    <header class="bg-white border-b border-gray-200">
+                    <header class="border-b border-gray-200 bg-white">
 
-                        <div class="px-6 py-6 sm:px-8 lg:px-10">
-
+                        <div class="px-4 py-5 sm:px-6 lg:px-10 lg:py-6">
                             {{ $header }}
-
                         </div>
 
                     </header>
                 @endisset
 
-
-                <!-- Page Content -->
-                <div class="px-6 py-8 sm:px-8 lg:px-10">
+                {{-- Page Content --}}
+                <div class="px-4 py-6 sm:px-6 lg:px-10 lg:py-8">
 
                     {{ $slot }}
 

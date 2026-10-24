@@ -18,6 +18,47 @@ class HouseController extends Controller
         return view('landlord.manage', compact('houses'));
     }
 
+    public function show(House $house)
+    {
+        return view('student.house-detail', compact('house'));
+    }
+
+    public function studentDashboard(Request $request)
+    {
+        $houses = House::with('landlord')
+            ->where('status', 'available')
+            ->when($request->filled('location'), function ($query) use ($request) {
+                $location = $request->string('location')->trim();
+
+                $query->where(function ($q) use ($location) {
+                    $q->where('area', 'like', "%{$location}%")
+                        ->orWhere('address', 'like', "%{$location}%")
+                        ->orWhere('title', 'like', "%{$location}%");
+                });
+            })
+            ->when(
+                $request->filled('price'),
+                fn($query) =>
+                $query->where('monthly_rent', '<=', (float) $request->input('price'))
+            )
+            ->when(
+                $request->filled('type'),
+                fn($query) =>
+                $query->where('property_type', 'like', '%' . $request->input('type') . '%')
+            )
+            ->latest()
+            ->paginate(9)
+            ->withQueryString();
+
+        $selectedHouse = $request->filled('house_id')
+            ? House::with('landlord')
+            ->where('status', 'available')
+            ->find($request->integer('house_id'))
+            : null;
+
+        return view('student.dashboard', compact('houses', 'selectedHouse'));
+    }
+
     public function create()
     {
         return view('landlord.create');
@@ -40,10 +81,8 @@ class HouseController extends Controller
             'image.*' => 'image|mimes:jpg,jpeg,png,webp|max:5120',
         ]);
 
-        // Get logged-in landlord ID
         $validated['landlord_id'] = Auth::id();
 
-        // Upload multiple images
         $imagePaths = [];
 
         if ($request->hasFile('image')) {
@@ -52,10 +91,8 @@ class HouseController extends Controller
             }
         }
 
-        // Store image paths as JSON
         $validated['image'] = json_encode($imagePaths);
 
-        // Create house
         House::create($validated);
 
         return redirect()
@@ -65,16 +102,20 @@ class HouseController extends Controller
 
     public function edit(House $house)
     {
-        // Make sure the house belongs to the logged-in landlord
-        abort_unless($house->landlord_id === Auth::id(), 403);
+        abort_unless(
+            $house->landlord_id == Auth::id(),
+            403
+        );
 
         return view('landlord.edit', compact('house'));
     }
 
     public function update(Request $request, House $house)
     {
-        // Make sure the house belongs to the logged-in landlord
-        abort_unless($house->landlord_id === Auth::id(), 403);
+        abort_unless(
+            $house->landlord_id == Auth::id(),
+            403
+        );
 
         $validated = $request->validate([
             'title' => 'required|string|max:255',
@@ -92,39 +133,26 @@ class HouseController extends Controller
             'status' => 'required|in:available,rented',
         ]);
 
-        // Upload new images if provided
         if ($request->hasFile('image')) {
+            $oldImages = json_decode($house->image, true);
 
-            // Delete old images
-            if ($house->image) {
-
-                $oldImages = json_decode($house->image, true);
-
-                if (is_array($oldImages)) {
-
-                    foreach ($oldImages as $oldImage) {
-                        Storage::disk('public')->delete($oldImage);
-                    }
-
-                } else {
-
-                    // Support old single-image data
-                    Storage::disk('public')->delete($house->image);
+            if (is_array($oldImages)) {
+                foreach ($oldImages as $oldImage) {
+                    Storage::disk('public')->delete($oldImage);
                 }
+            } elseif ($house->image) {
+                Storage::disk('public')->delete($house->image);
             }
 
-            // Upload new images
             $imagePaths = [];
 
             foreach ($request->file('image') as $image) {
                 $imagePaths[] = $image->store('houses', 'public');
             }
 
-            // Store new image paths
             $validated['image'] = json_encode($imagePaths);
         }
 
-        // Update house
         $house->update($validated);
 
         return redirect()
@@ -134,27 +162,21 @@ class HouseController extends Controller
 
     public function destroy(House $house)
     {
-        // Make sure the house belongs to the logged-in landlord
-        abort_unless($house->landlord_id === Auth::id(), 403);
+        abort_unless(
+            $house->landlord_id == Auth::id(),
+            403
+        );
 
-        // Delete house images
-        if ($house->image) {
+        $images = json_decode($house->image, true);
 
-            $images = json_decode($house->image, true);
-
-            if (is_array($images)) {
-
-                foreach ($images as $image) {
-                    Storage::disk('public')->delete($image);
-                }
-
-            } else {
-
-                Storage::disk('public')->delete($house->image);
+        if (is_array($images)) {
+            foreach ($images as $image) {
+                Storage::disk('public')->delete($image);
             }
+        } elseif ($house->image) {
+            Storage::disk('public')->delete($house->image);
         }
 
-        // Delete the house
         $house->delete();
 
         return redirect()
@@ -162,4 +184,3 @@ class HouseController extends Controller
             ->with('success', 'House deleted successfully.');
     }
 }
-

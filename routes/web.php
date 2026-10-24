@@ -42,19 +42,12 @@ Route::get('/student/dashboard', function () {
 
     // Search Bajet Maksimum
     if (request('price')) {
-        $query->where(
-            'monthly_rent',
-            '<=',
-            request('price')
-        );
+        $query->where('monthly_rent', '<=', request('price'));
     }
 
     // Search Jenis Rumah
     if (request('type')) {
-        $query->where(
-            'property_type',
-            request('type')
-        );
+        $query->where('property_type', request('type'));
     }
 
     // Get Houses
@@ -63,7 +56,16 @@ Route::get('/student/dashboard', function () {
         ->paginate(6)
         ->withQueryString();
 
-    return view('dashboard', compact('houses'));
+    // Get Selected House from Map
+    $selectedHouse = null;
+
+    if (request()->filled('house_id')) {
+        $selectedHouse = House::with('landlord')
+            ->where('status', 'available')
+            ->find(request()->integer('house_id'));
+    }
+
+    return view('dashboard', compact('houses', 'selectedHouse'));
 })->middleware(['auth', 'verified'])->name('student.dashboard');
 
 // Landlord Dashboard
@@ -166,7 +168,7 @@ Route::middleware('auth')->group(function () {
     ])->name('favourite.check');
 });
 
-// Permohonan - Map View
+// Map Search
 Route::get('/MapSearch', function () {
     $houses = House::where('status', 'available')
         ->latest()
@@ -185,5 +187,10 @@ Route::get('/MapSearch', function () {
     return view('MapSearch', compact('houses'));
 })->middleware(['auth', 'verified'])->name('MapSearch');
 
-// Authentication Routes
+// Student House Detail
+Route::get('/student/house/{house}', [
+    HouseController::class,
+    'show'
+])->middleware(['auth', 'verified'])->name('student.house-detail');
+
 require __DIR__ . '/auth.php';
