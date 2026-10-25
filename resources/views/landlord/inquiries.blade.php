@@ -11,6 +11,7 @@
     </x-slot>
 
     <div class="w-full">
+            @include('landlord.partials.nav')
 
             <div class="mb-5 flex flex-wrap gap-2">
                 @foreach (['' => 'Semua'] + \App\Models\Inquiry::STATUSES as $k => $label)
@@ -21,7 +22,7 @@
                 @endforeach
             </div>
 
-            <div class="space-y-4">
+            <div class="grid gap-4 xl:grid-cols-2">
                 @forelse ($inquiries as $q)
                     @php
                         [$label, $tone] = $labels[$q->status] ?? [$q->status, 'bg-gray-100 text-gray-600'];
@@ -57,8 +58,8 @@
                         </div>
                     </div>
                 @empty
-                    <div class="rounded-2xl border border-dashed border-gray-300 bg-white py-16 text-center">
-                        <div class="flex justify-center text-indigo-500"><svg class="h-14 w-14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M7 8h10M7 12h6m-9 8 3.5-3H18a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v12Z"/></svg></div>
+                    <div class="col-span-full rounded-2xl border border-dashed border-gray-300 bg-white py-16 text-center">
+                        <div class="text-5xl">📭</div>
                         <h3 class="mt-4 text-lg font-bold text-gray-700">Belum ada permintaan</h3>
                         <p class="mt-2 text-sm text-gray-500">Permintaan akan muncul di sini apabila pelajar menekan "Mohon lawatan" pada iklan anda. Iklan yang lengkap dengan gambar menarik lebih banyak permintaan.</p>
                     </div>
@@ -68,4 +69,3 @@
             <div class="mt-6">{{ $inquiries->links() }}</div>
         </div>
 </x-landlord-layout>
-

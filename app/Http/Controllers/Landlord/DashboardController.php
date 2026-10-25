@@ -10,6 +10,12 @@ use App\Support\ListingQuality;
 
 class DashboardController extends LandlordController
 {
+    /** Pengganti halaman lama /landlord/manage. */
+    public function legacyManage()
+    {
+        return redirect()->route('landlord.x.overview');
+    }
+
     public function index()
     {
         $user = auth()->user();

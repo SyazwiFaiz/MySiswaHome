@@ -1,4 +1,4 @@
-﻿@php
+@php
     $rm = fn ($n) => 'RM' . number_format((float) $n, 0);
     $states = ['paid' => ['Telah dibayar', 'bg-green-100 text-green-700'], 'overdue' => ['Lewat', 'bg-rose-100 text-rose-700'], 'soon' => ['Hampir tarikh bayaran', 'bg-amber-100 text-amber-700'], 'upcoming' => ['Belum tiba', 'bg-gray-100 text-gray-600']];
     $phone = preg_replace('/\D/', '', (string) $tenancy->tenant_phone);
@@ -17,6 +17,7 @@
     </x-slot>
 
     <div class="w-full">
+            @include('landlord.partials.nav')
             <a href="{{ route('landlord.x.tenancies.index') }}" class="mb-4 inline-block text-sm font-semibold text-indigo-600 hover:underline">Kembali ke senarai sewaan</a>
 
             <div class="grid gap-6 lg:grid-cols-3">
@@ -95,4 +96,3 @@
             </div>
         </div>
 </x-landlord-layout>
-

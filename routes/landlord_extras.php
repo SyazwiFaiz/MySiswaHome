@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Landlord\DashboardController;
+use App\Http\Controllers\Landlord\HouseController;
 use App\Http\Controllers\Landlord\HouseQuickController;
 use App\Http\Controllers\Landlord\InquiryController;
 use App\Http\Controllers\Landlord\ReviewController;
@@ -11,8 +12,17 @@ use Illuminate\Support\Facades\Route;
 Route::middleware(['auth', EnsureLandlord::class])->prefix('landlord')->name('landlord.x.')->group(function () {
     Route::get('overview', [DashboardController::class, 'index'])->name('overview');
 
-    Route::post('houses/{house}/toggle-status', [HouseQuickController::class, 'toggleStatus'])->name('houses.toggle');
-    Route::post('houses/{house}/duplicate', [HouseQuickController::class, 'duplicate'])->name('houses.duplicate');
+    // Halaman lama /landlord/manage digantikan oleh overview (route ini menimpa yang lama)
+    Route::get('manage', [DashboardController::class, 'legacyManage'])->name('manage.redirect');
+
+    // Urus iklan rumah (tambah / edit / padam)
+    Route::get('listings/create', [HouseController::class, 'create'])->name('houses.create');
+    Route::post('listings', [HouseController::class, 'store'])->name('houses.store');
+    Route::get('listings/{house}/edit', [HouseController::class, 'edit'])->name('houses.edit');
+    Route::put('listings/{house}', [HouseController::class, 'update'])->name('houses.update');
+    Route::delete('listings/{house}', [HouseController::class, 'destroy'])->name('houses.destroy');
+    Route::post('listings/{house}/toggle-status', [HouseQuickController::class, 'toggleStatus'])->name('houses.toggle');
+    Route::post('listings/{house}/duplicate', [HouseQuickController::class, 'duplicate'])->name('houses.duplicate');
 
     Route::get('inquiries', [InquiryController::class, 'index'])->name('inquiries');
     Route::patch('inquiries/{inquiry}', [InquiryController::class, 'update'])->name('inquiries.update');

@@ -54,6 +54,7 @@
         ['Permintaan', 'admin.inquiries.index', 'admin.inquiries.*', 'M3 8l9 6 9-6M5 6h14a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2z'],
         ['Ulasan', 'admin.reviews.index', 'admin.reviews.*', 'M12 3.5l2.6 5.3 5.9.9-4.2 4.1 1 5.8L12 16.8 6.7 19.6l1-5.8L3.5 9.7l5.9-.9z'],
         ['Log aktiviti', 'admin.activity.index', 'admin.activity.*', 'M12 7v5l3 2M21 12a9 9 0 11-18 0 9 9 0 0118 0z'],
+        ['Profil', 'profile.edit', 'profile.*', 'M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z'],
     ];
 @endphp
 
@@ -89,13 +90,13 @@
         </nav>
 
         <div class="border-t border-gray-100 p-3">
-            <div class="flex items-center gap-3 rounded-lg px-2 py-2">
+            <a href="{{ route('profile.edit') }}" class="flex items-center gap-3 rounded-xl px-2 py-2 hover:bg-gray-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500">
                 <x-avatar :user="auth()->user()" class="h-9 w-9" />
                 <div class="min-w-0 flex-1">
                     <p class="truncate text-sm font-semibold text-gray-800">{{ auth()->user()->name }}</p>
                     <p class="truncate text-xs text-gray-500">{{ auth()->user()->email }}</p>
                 </div>
-            </div>
+            </a>
             <form method="POST" action="{{ route('logout') }}" class="mt-1">
                 @csrf
                 <button class="w-full rounded-xl px-3 py-2 text-left text-sm text-gray-600 hover:bg-gray-50 hover:text-indigo-700">Log keluar</button>

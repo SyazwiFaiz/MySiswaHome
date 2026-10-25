@@ -7,9 +7,10 @@
     </x-slot>
 
     <div class="w-full">
+            @include('landlord.partials.nav')
 
             <div class="mb-5 flex flex-wrap items-center gap-4 rounded-2xl border border-gray-100 bg-white p-5 shadow-sm">
-                <div class="flex items-center gap-3"><span class="flex h-10 w-10 items-center justify-center rounded-xl bg-amber-50 text-amber-500"><svg class="h-6 w-6" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3.09 6.26 6.91 1-5 4.87 1.18 6.87L12 17.77l-6.18 3.23L7 14.13 2 9.26l6.91-1L12 2Z"/></svg></span>
+                <div class="flex items-center gap-3"><span class="flex h-10 w-10 items-center justify-center rounded-xl bg-amber-50 text-lg">⭐</span>
                     <div><p class="text-2xl font-extrabold leading-none text-gray-800">{{ $total ? number_format($avg, 1) : '-' }}</p><p class="text-xs text-gray-500">Purata penilaian</p></div></div>
                 <div><p class="text-2xl font-extrabold leading-none text-gray-800">{{ $total }}</p><p class="text-xs text-gray-500">Jumlah ulasan</p></div>
                 <div class="ml-auto flex gap-2">
@@ -18,12 +19,12 @@
                 </div>
             </div>
 
-            <div class="space-y-4">
+            <div class="grid gap-4 xl:grid-cols-2">
                 @forelse ($reviews as $r)
                     <div class="rounded-2xl border border-gray-100 bg-white p-5 shadow-sm">
                         <div class="flex flex-wrap items-center justify-between gap-2">
                             <div><p class="font-bold text-gray-800">{{ $r->user?->name ?? 'Pengguna' }}</p><p class="text-xs text-gray-500">{{ $r->house?->title }} &middot; {{ $r->created_at->diffForHumans() }}</p></div>
-                            <span class="text-lg leading-none"><span class="text-amber-400">{{ str_repeat('â˜…', $r->rating) }}</span><span class="text-gray-300">{{ str_repeat('â˜…', 5 - $r->rating) }}</span></span>
+                            <span class="text-lg leading-none"><span class="text-amber-400">{{ str_repeat('★', $r->rating) }}</span><span class="text-gray-300">{{ str_repeat('★', 5 - $r->rating) }}</span></span>
                         </div>
                         @if ($r->comment)<p class="mt-3 whitespace-pre-line text-sm leading-6 text-gray-600">{{ $r->comment }}</p>@endif
 
@@ -44,8 +45,8 @@
                         @endif
                     </div>
                 @empty
-                    <div class="rounded-2xl border border-dashed border-gray-300 bg-white py-16 text-center">
-                        <div class="text-5xl">ðŸ’¬</div>
+                    <div class="col-span-full rounded-2xl border border-dashed border-gray-300 bg-white py-16 text-center">
+                        <div class="text-5xl">💬</div>
                         <h3 class="mt-4 text-lg font-bold text-gray-700">{{ request('filter') ? 'Semua ulasan sudah dibalas' : 'Belum ada ulasan' }}</h3>
                         <p class="mt-2 text-sm text-gray-500">Ulasan muncul apabila pelajar menilai rumah anda.</p>
                     </div>
@@ -55,4 +56,3 @@
             <div class="mt-6">{{ $reviews->links() }}</div>
         </div>
 </x-landlord-layout>
-

@@ -1,8 +1,5 @@
 @php
-    // ------------------------------------------------------------
-    // Tukar medan `image` (array / JSON / JSON dalam JSON / laluan tunggal)
-    // kepada senarai URL penuh. Dibuat di server supaya JS tak perlu meneka.
-    // ------------------------------------------------------------
+
     $flattenImages = function ($value, $depth = 0) use (&$flattenImages) {
         if ($depth > 4 || $value === null || $value === '') {
             return [];
@@ -99,9 +96,9 @@
             @endif
 
 
-            {{-- ===================================================== --}}
+          
             {{-- SENARAI RUMAH (disembunyikan bila detail dibuka)      --}}
-            {{-- ===================================================== --}}
+          
             <div id="listingSection">
 
                 <!-- Welcome -->
@@ -287,9 +284,9 @@
                 </div>
             </div>
 
-            {{-- ===================================================== --}}
+          
             {{-- DETAIL RUMAH (SATU SAHAJA - dikawal oleh JavaScript)  --}}
-            {{-- ===================================================== --}}
+          
             <div id="houseDetail" class="hidden" data-house-id="">
 
                 <div class="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm">
@@ -572,13 +569,13 @@
                 </div>
             </div>
 
-            {{-- ===================================================== --}}
+          
             {{-- JAVASCRIPT                                            --}}
-            {{-- ===================================================== --}}
+          
             <script>
-                // ------------------------------------------------------
+                
                 // DATA DARI LARAVEL
-                // ------------------------------------------------------
+                
                 const houses = @json($housesJson);
                 const selectedHouse = @json($selectedJson);
                 const dashboardUrl = @json(route('student.dashboard'));
@@ -587,9 +584,9 @@
                 let currentHouseImages = [];
                 let currentImageIndex = 0;
 
-                // ------------------------------------------------------
+                
                 // HELPER
-                // ------------------------------------------------------
+                
                 // URL gambar sudah diselesaikan oleh server (image_urls)
                 function imageUrl(url) {
                     return url;
@@ -619,9 +616,9 @@
                     }
                 }
 
-                // ------------------------------------------------------
+                
                 // PAPAR DETAIL RUMAH
-                // ------------------------------------------------------
+                
                 function showHouseDetail(houseId) {
                     let house = houses.find(h => Number(h.id) === Number(houseId));
 
@@ -722,9 +719,9 @@
                     });
                 }
 
-                // ------------------------------------------------------
+                
                 // GALERI GAMBAR
-                // ------------------------------------------------------
+                
                 function updateHouseImage() {
                     const image = document.getElementById('detailHouseImage');
                     const noImage = document.getElementById('detailNoImage');
@@ -833,9 +830,9 @@
                     updateHouseImage();
                 }
 
-                // ------------------------------------------------------
+                
                 // FAVOURITE
-                // ------------------------------------------------------
+                
                 async function checkFavourite(houseId) {
                     try {
                         const response = await fetch(`/favourite/${houseId}/check`, {
@@ -890,9 +887,9 @@
                     }
                 }
 
-                // ------------------------------------------------------
+                
                 // KEMBALI KE SENARAI
-                // ------------------------------------------------------
+                
                 function backToHouseList() {
                     const houseDetail = document.getElementById('houseDetail');
 
@@ -915,9 +912,9 @@
                     });
                 }
 
-                // ------------------------------------------------------
+                
                 // KEYBOARD: ← → tukar gambar, Esc kembali
-                // ------------------------------------------------------
+                
                 document.addEventListener('keydown', function(e) {
                     const detail = document.getElementById('houseDetail');
                     if (!detail || detail.classList.contains('hidden')) return;
@@ -927,9 +924,9 @@
                     if (e.key === 'Escape') backToHouseList();
                 });
 
-                // ------------------------------------------------------
+                
                 // AUTO BUKA DETAIL BILA DATANG DARI PETA
-                // ------------------------------------------------------
+                
                 document.addEventListener('DOMContentLoaded', function() {
                     if (selectedHouse && selectedHouse.id) {
                         showHouseDetail(selectedHouse.id);

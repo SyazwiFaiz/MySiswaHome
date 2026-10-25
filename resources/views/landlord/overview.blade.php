@@ -1,4 +1,4 @@
-﻿@php
+@php
     $rm = fn ($n) => 'RM' . number_format((float) $n, 0);
     $q = fn ($s) => $s >= 80 ? ['bg-green-500', 'text-green-700'] : ($s >= 60 ? ['bg-amber-400', 'text-amber-700'] : ['bg-rose-500', 'text-rose-700']);
 @endphp
@@ -11,6 +11,7 @@
     </x-slot>
 
     <div class="w-full">
+            @include('landlord.partials.nav')
 
             {{-- Banner --}}
             <section class="relative mb-6 overflow-hidden rounded-2xl bg-gradient-to-r from-indigo-700 via-indigo-600 to-violet-600 px-6 py-7 text-white shadow-lg sm:px-8">
@@ -24,36 +25,30 @@
                             {{ count($attention) ? 'Ada ' . count($attention) . ' perkara perlu tindakan.' : 'Semuanya terkawal.' }}
                         </p>
                     </div>
-                    <a href="{{ route('landlord.x.tenancies.create') }}" class="rounded-xl bg-white px-4 py-2.5 text-sm font-semibold text-indigo-600 shadow-sm transition hover:bg-indigo-50">Rekod penyewa baharu</a>
+                    <div class="flex flex-wrap gap-2">
+                        <a href="{{ route('landlord.x.houses.create') }}" class="rounded-xl bg-white px-4 py-2.5 text-sm font-semibold text-indigo-600 shadow-sm transition hover:bg-indigo-50">Tambah rumah</a>
+                        <a href="{{ route('landlord.x.tenancies.create') }}" class="rounded-xl border border-white/30 bg-white/10 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-white/20">Rekod penyewa</a>
+                    </div>
                 </div>
             </section>
 
             {{-- Statistik --}}
             <div class="mb-6 grid grid-cols-2 gap-4 lg:grid-cols-4">
                 @foreach ([
-                    ['house', 'bg-blue-50', 'Rumah', $stats['houses'], $stats['available'] . ' kosong, ' . $stats['rented'] . ' disewa'],
-                    ['money', 'bg-green-50', 'Sewa bulanan aktif', $rm($stats['income']), 'Daripada rekod sewaan aktif'],
-                    ['heart', 'bg-rose-50', 'Disimpan pelajar', $stats['favourites'], 'Jumlah semua iklan anda'],
-                    ['star', 'bg-amber-50', 'Penilaian', number_format($stats['rating'] ?? 0, 1), ($stats['reviews'] ?? 0) . ' ulasan'],
-                ] as [$icon, $color, $label, $value, $note])
+                    ['🏠', 'bg-blue-50', 'Rumah', $stats['houses'], $stats['available'] . ' kosong, ' . $stats['rented'] . ' disewa'],
+                    ['💰', 'bg-green-50', 'Sewa bulanan aktif', $rm($stats['income']), 'Daripada rekod sewaan aktif'],
+                    ['♥', 'bg-rose-50', 'Disimpan pelajar', $stats['favourites'], 'Jumlah semua iklan anda'],
+                    ['⭐', 'bg-amber-50', 'Penilaian', $stats['reviews'] ? number_format($stats['rating'], 1) : '-', $stats['reviews'] . ' ulasan'],
+                ] as [$icon, $tint, $label, $value, $sub])
                     <div class="rounded-2xl border border-gray-100 bg-white p-5 shadow-sm">
-                        <div class="mb-4 flex h-11 w-11 items-center justify-center rounded-xl {{ $color }}">
-                            @if ($icon === 'house')
-                                <svg class="h-6 w-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1V10Z" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                            @elseif ($icon === 'money')
-                                <svg class="h-6 w-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2v20m5-15H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                            @elseif ($icon === 'heart')
-                                <svg class="h-6 w-6 text-rose-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1.1L12 21l7.8-7.5 1.1-1.1a5.5 5.5 0 0 0-.1-7.8Z" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                            @else
-                                <svg class="h-6 w-6 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3 2.8 5.7 6.2.9-4.5 4.4 1.1 6.2-5.6-3-5.6 3 1.1-6.2L3 9.6l6.2-.9L12 3Z" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                            @endif
+                        <div class="flex items-center gap-3">
+                            <span class="flex h-10 w-10 items-center justify-center rounded-xl {{ $tint }} text-lg">{{ $icon }}</span>
+                            <p class="text-sm text-gray-500">{{ $label }}</p>
                         </div>
-                        <p class="text-sm font-medium text-gray-500">{{ $label }}</p>
-                        <p class="mt-1 text-2xl font-extrabold text-gray-900">{{ $value }}</p>
-                        <p class="mt-1 text-xs text-gray-500">{{ $note }}</p>
+                        <p class="mt-3 text-3xl font-extrabold text-gray-800">{{ $value }}</p>
+                        <p class="mt-1 text-xs text-gray-400">{{ $sub }}</p>
                     </div>
                 @endforeach
-            </div>
             </div>
 
             <div class="mb-6 grid gap-6 lg:grid-cols-3">
@@ -103,8 +98,8 @@
                             <th class="px-4 py-3 text-left text-xs font-semibold text-gray-500">Rumah</th>
                             <th class="px-4 py-3 text-left text-xs font-semibold text-gray-500">Status</th>
                             <th class="px-4 py-3 text-left text-xs font-semibold text-gray-500">Sewa</th>
-                            <th class="px-4 py-3 text-left text-xs font-semibold text-gray-500">â™¥</th>
-                            <th class="px-4 py-3 text-left text-xs font-semibold text-gray-500">â­</th>
+                            <th class="px-4 py-3 text-left text-xs font-semibold text-gray-500">♥</th>
+                            <th class="px-4 py-3 text-left text-xs font-semibold text-gray-500">⭐</th>
                             <th class="px-4 py-3 text-left text-xs font-semibold text-gray-500">Permintaan</th>
                             <th class="px-4 py-3 text-left text-xs font-semibold text-gray-500">Skor iklan</th>
                             <th class="px-4 py-3 text-right text-xs font-semibold text-gray-500">Tindakan</th>
@@ -148,13 +143,19 @@
                                         @endif
                                     </td>
                                     <td class="whitespace-nowrap px-4 py-3 text-right">
-                                        <form method="POST" action="{{ route('landlord.x.houses.duplicate', $h) }}" onsubmit="return confirm('Gandakan iklan ini?')">@csrf
-                                            <button class="rounded-xl border border-indigo-200 bg-white px-3 py-1.5 text-xs font-semibold text-indigo-600 hover:bg-indigo-50">Gandakan</button>
-                                        </form>
+                                        <div class="flex items-center justify-end gap-2">
+                                            <a href="{{ route('landlord.x.houses.edit', $h) }}" class="rounded-xl bg-indigo-600 px-3 py-1.5 text-xs font-semibold text-white hover:bg-indigo-700">Edit</a>
+                                            <form method="POST" action="{{ route('landlord.x.houses.duplicate', $h) }}" onsubmit="return confirm('Gandakan iklan ini?')">@csrf
+                                                <button class="rounded-xl border border-indigo-200 bg-white px-3 py-1.5 text-xs font-semibold text-indigo-600 hover:bg-indigo-50">Gandakan</button>
+                                            </form>
+                                            <form method="POST" action="{{ route('landlord.x.houses.destroy', $h) }}" onsubmit="return confirm('Padam iklan &quot;{{ addslashes($h->title) }}&quot;?')">@csrf @method('DELETE')
+                                                <button class="rounded-xl border border-rose-200 bg-white px-3 py-1.5 text-xs font-semibold text-rose-600 hover:bg-rose-50">Padam</button>
+                                            </form>
+                                        </div>
                                     </td>
                                 </tr>
                             @empty
-                                <tr><td colspan="8" class="px-6 py-14 text-center text-sm text-gray-500">Anda belum menambah sebarang rumah.</td></tr>
+                                <tr><td colspan="8" class="px-6 py-14 text-center"><p class="text-sm text-gray-500">Anda belum menambah sebarang rumah.</p><a href="{{ route('landlord.x.houses.create') }}" class="mt-4 inline-block rounded-xl bg-indigo-600 px-5 py-3 text-sm font-semibold text-white hover:bg-indigo-700">Tambah rumah pertama</a></td></tr>
                             @endforelse
                         </tbody>
                     </table>
@@ -162,5 +163,3 @@
             </section>
         </div>
 </x-landlord-layout>
-
-

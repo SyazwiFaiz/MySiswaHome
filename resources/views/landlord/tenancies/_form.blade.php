@@ -6,8 +6,8 @@
     $err = fn ($k) => $errors->first($k);
 @endphp
 
-<div class="grid gap-5 sm:grid-cols-2">
-    <div class="sm:col-span-2">
+<div class="grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
+    <div class="sm:col-span-2 xl:col-span-2">
         <label for="house_id" class="{{ $lbl }}">Rumah</label>
         @if ($tenancy->exists)
             <p class="mt-1 rounded-xl bg-gray-50 px-3 py-2.5 text-sm font-semibold text-gray-700">{{ $tenancy->house?->title }}</p>
@@ -56,7 +56,7 @@
         <input id="deposit" name="deposit" type="number" min="0" step="0.01" value="{{ $v('deposit', 0) }}" class="{{ $field }}">
     </div>
 
-    <div class="sm:col-span-2">
+    <div class="sm:col-span-2 xl:col-span-4">
         <label for="notes" class="{{ $lbl }}">Nota (pilihan)</label>
         <textarea id="notes" name="notes" rows="3" maxlength="1000" class="{{ $field }}" placeholder="Contoh: Deposit utiliti RM200 sudah dibayar. Penyewa pelajar UNMC.">{{ $v('notes') }}</textarea>
     </div>
