@@ -3,11 +3,16 @@
 namespace App\Http\Controllers\Account;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\ProfileController;
 use Illuminate\Http\Request;
 
 /**
- * Menggantikan GET /profile: setiap peranan nampak profil dalam layout masing-masing.
- * Student kekal menggunakan ProfileController::edit() sedia ada (tiada perubahan).
+ * Menggantikan GET /profile supaya setiap peranan
+ * melihat halaman profil menggunakan layout masing-masing.
+ *
+ * Admin    : admin.profile
+ * Landlord : landlord.profile
+ * Student  : ProfileController sedia ada
  */
 class ProfileEntryController extends Controller
 {
@@ -15,8 +20,10 @@ class ProfileEntryController extends Controller
     {
         return match ($request->user()->role) {
             'admin' => view('admin.profile'),
+
             'landlord' => view('landlord.profile'),
-            default => app()->call([\App\Http\Controllers\ProfileController::class, 'edit']),
+
+            default => app(ProfileController::class)->edit($request),
         };
     }
 }
