@@ -6,10 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Http\Request;
 
-/**
- * Menggantikan GET /profile supaya setiap peranan
- * melihat halaman profil menggunakan layout masing-masing.
- *
+/*
  * Admin    : admin.profile
  * Landlord : landlord.profile
  * Student  : ProfileController sedia ada
