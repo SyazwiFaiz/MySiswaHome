@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\ActivityLog;
 use App\Models\Favourite;
 use App\Models\House;
+use App\Models\Inquiry;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 
@@ -30,6 +31,7 @@ class DashboardController extends Controller
 
         // Perkara yang perlu admin semak
         $attention = [
+            ['label' => 'Permintaan lawatan menunggu', 'count' => Inquiry::where('status', 'pending')->count(), 'url' => route('admin.inquiries.index', ['status' => 'pending'])],
             ['label' => 'Rumah belum ada koordinat peta', 'count' => House::where(fn ($q) => $q->whereNull('latitude')->orWhereNull('longitude'))->count(), 'url' => route('admin.houses.index', ['missing' => 'coords'])],
             ['label' => 'Rumah belum ada gambar', 'count' => House::where(fn ($q) => $q->whereNull('image')->orWhere('image', ''))->count(), 'url' => route('admin.houses.index', ['missing' => 'image'])],
             ['label' => 'Tuan rumah tiada iklan', 'count' => User::where('role', 'landlord')->doesntHave('houses')->count(), 'url' => route('admin.users.index', ['role' => 'landlord', 'no_listing' => 1])],

@@ -62,9 +62,7 @@
     };
 
     $toHouseArray = function ($house) use ($resolveImages) {
-        $data = is_array($house)
-            ? $house
-            : (method_exists($house, 'toArray') ? $house->toArray() : (array) $house);
+        $data = is_array($house) ? $house : (method_exists($house, 'toArray') ? $house->toArray() : (array) $house);
 
         $data['image_urls'] = $resolveImages($data['image'] ?? null);
 
@@ -72,7 +70,7 @@
     };
 
     $housesJson = collect($houses->items())->map($toHouseArray)->values();
-    $selectedJson = (isset($selectedHouse) && $selectedHouse) ? $toHouseArray($selectedHouse) : null;
+    $selectedJson = isset($selectedHouse) && $selectedHouse ? $toHouseArray($selectedHouse) : null;
 
     $isSearching = request()->hasAny(['location', 'price', 'type']);
 @endphp
@@ -201,8 +199,7 @@
 
                             <div class="relative h-48 bg-gray-200">
                                 @if (!empty($houseImages))
-                                    <img src="{{ $houseImages[0] }}"
-                                        alt="{{ $house->title }}" loading="lazy"
+                                    <img src="{{ $houseImages[0] }}" alt="{{ $house->title }}" loading="lazy"
                                         class="h-full w-full object-cover"
                                         onerror="console.warn('Gambar gagal dimuatkan:', this.src); this.replaceWith(Object.assign(document.createElement('div'), {className: 'flex h-full w-full items-center justify-center text-5xl', textContent: '🏠'}));">
 
@@ -313,8 +310,7 @@
                                 MAKLUMAT HARTANAH
                             </div>
 
-                            <h2 id="detailHouseTitle"
-                                class="text-2xl font-extrabold tracking-tight sm:text-3xl"></h2>
+                            <h2 id="detailHouseTitle" class="text-2xl font-extrabold tracking-tight sm:text-3xl"></h2>
 
                             <p class="mt-2 flex items-start gap-2 text-sm leading-6 text-indigo-100 sm:text-base">
                                 <svg class="mt-0.5 h-5 w-5 shrink-0" fill="none" stroke="currentColor"
@@ -395,8 +391,7 @@
                                             class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-violet-50 text-violet-600">
                                             <svg class="h-5 w-5" fill="none" stroke="currentColor"
                                                 viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                    stroke-width="2"
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                     d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01" />
                                             </svg>
                                         </div>
@@ -427,8 +422,7 @@
                                             class="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-white text-indigo-600 shadow-sm">
                                             <svg class="h-6 w-6" fill="none" stroke="currentColor"
                                                 viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                    stroke-width="2"
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                     d="M12 8c-2.21 0-4 1.12-4 2.5S9.79 13 12 13s4 1.12 4 2.5S14.21 18 12 18m0-10V6m0 2v10m0 0v2m8-8a8 8 0 11-16 0 8 8 0 0116 0z" />
                                             </svg>
                                         </div>
@@ -483,7 +477,8 @@
                                 </div>
 
                                 <!-- Status -->
-                                <div class="mt-6 flex items-center justify-between rounded-2xl border border-slate-200 p-5">
+                                <div
+                                    class="mt-6 flex items-center justify-between rounded-2xl border border-slate-200 p-5">
                                     <p class="text-sm font-semibold text-slate-900">Status Rumah</p>
                                     <span id="detailStatus"
                                         class="inline-flex rounded-full bg-gray-100 px-4 py-1.5 text-sm font-semibold text-gray-600"></span>
@@ -496,11 +491,10 @@
                                             class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-rose-50 text-rose-600">
                                             <svg class="h-5 w-5" fill="none" stroke="currentColor"
                                                 viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                    stroke-width="2"
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                     d="M17.657 16.657L13.414 20.9a2 2 0 01-2.828 0l-4.243-4.243a8 8 0 1111.314 0z" />
-                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                    stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                                             </svg>
                                         </div>
                                         <div class="min-w-0 flex-1">
@@ -518,8 +512,7 @@
                                             class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-green-50 text-green-600">
                                             <svg class="h-5 w-5" fill="none" stroke="currentColor"
                                                 viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                    stroke-width="2"
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                     d="M3 5a2 2 0 012-2h3l2 5-2 1a11 11 0 005 5l1-2 5 2v3a2 2 0 01-2 2A16 16 0 013 5z" />
                                             </svg>
                                         </div>
@@ -946,5 +939,5 @@
 
         </div>
     </div>
-
+    @include('student.partials.extras')
 </x-app-layout>

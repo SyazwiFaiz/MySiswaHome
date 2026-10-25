@@ -69,9 +69,10 @@ Route::get('/student/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('student.dashboard');
 
 // Landlord Dashboard
-Route::get('/landlord/create', function () {
-    return view('landlord.create');
-})->middleware(['auth', 'verified'])->name('landlord.create');
+Route::get('/landlord/create', [
+    \App\Http\Controllers\Landlord\DashboardController::class,
+    'index',
+])->middleware(['auth', 'verified'])->name('landlord.create');
 
 // House Management for Landlords
 Route::middleware(['auth', 'verified'])->group(function () {
@@ -196,4 +197,6 @@ Route::get('/student/house/{house}', [
 
 
 require __DIR__ . '/auth.php';
-require __DIR__.'/admin.php';
+require __DIR__ . '/admin.php';
+require __DIR__ . '/student_extras.php';
+require __DIR__ . '/landlord_extras.php';

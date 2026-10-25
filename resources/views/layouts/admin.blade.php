@@ -51,6 +51,8 @@
         ['Rumah', 'admin.houses.index', 'admin.houses.*', 'M3 10.5L12 3l9 7.5M5 9.5V21h14V9.5M10 21v-6h4v6'],
         ['Pengguna', 'admin.users.index', 'admin.users.*', 'M16 19v-1.5a3.5 3.5 0 00-3.5-3.5h-5A3.5 3.5 0 004 17.5V19M10 11a3.5 3.5 0 100-7 3.5 3.5 0 000 7zM20 19v-1.5a3.5 3.5 0 00-2.5-3.35M15.5 4.2a3.5 3.5 0 010 6.6'],
         ['Kegemaran', 'admin.favourites.index', 'admin.favourites.*', 'M12 20s-7-4.4-7-10a4 4 0 017-2.6A4 4 0 0119 10c0 5.6-7 10-7 10z'],
+        ['Permintaan', 'admin.inquiries.index', 'admin.inquiries.*', 'M3 8l9 6 9-6M5 6h14a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2z'],
+        ['Ulasan', 'admin.reviews.index', 'admin.reviews.*', 'M12 3.5l2.6 5.3 5.9.9-4.2 4.1 1 5.8L12 16.8 6.7 19.6l1-5.8L3.5 9.7l5.9-.9z'],
         ['Log aktiviti', 'admin.activity.index', 'admin.activity.*', 'M12 7v5l3 2M21 12a9 9 0 11-18 0 9 9 0 0118 0z'],
     ];
 @endphp

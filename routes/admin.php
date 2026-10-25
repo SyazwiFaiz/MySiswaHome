@@ -4,6 +4,8 @@ use App\Http\Controllers\Admin\ActivityLogController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\FavouriteController;
 use App\Http\Controllers\Admin\HouseController;
+use App\Http\Controllers\Admin\InquiryController;
+use App\Http\Controllers\Admin\ReviewController;
 use App\Http\Controllers\Admin\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -27,6 +29,13 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('favourites', [FavouriteController::class, 'index'])->name('favourites.index');
     Route::post('favourites/bulk', [FavouriteController::class, 'bulk'])->name('favourites.bulk');
     Route::delete('favourites/{favourite}', [FavouriteController::class, 'destroy'])->name('favourites.destroy');
+
+    // Permintaan lawatan & ulasan
+    Route::get('inquiries', [InquiryController::class, 'index'])->name('inquiries.index');
+    Route::patch('inquiries/{inquiry}', [InquiryController::class, 'update'])->name('inquiries.update');
+    Route::delete('inquiries/{inquiry}', [InquiryController::class, 'destroy'])->name('inquiries.destroy');
+    Route::get('reviews', [ReviewController::class, 'index'])->name('reviews.index');
+    Route::delete('reviews/{review}', [ReviewController::class, 'destroy'])->name('reviews.destroy');
 
     // Log aktiviti
     Route::get('activity', [ActivityLogController::class, 'index'])->name('activity.index');
